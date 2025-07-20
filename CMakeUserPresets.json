@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "configurePresets": [
+    {
+      "name": "default",
+      "generator": "Ninja",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "C:/Dev/Tools/vcpkg"
+      }
+    }
+  ]
+}

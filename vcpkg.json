@@ -1,0 +1,7 @@
+{
+  "dependencies": [
+    "cpr",
+    "fmt",
+    "nlohmann-json"
+  ]
+}
