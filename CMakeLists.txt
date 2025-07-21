@@ -6,11 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Dependencies
-#find_package(cpr CONFIG REQUIRED)
+find_package(cpr CONFIG REQUIRED)
 #find_package(fmt CONFIG REQUIRED)
-set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /usr/local/lib/cmake)
-find_package ( cpr REQUIRED )
-include_directories ( ${CPR_INCLUDE_DIRS} )
 
 add_executable(flightSim_playground main.cpp)
 
@@ -27,11 +24,23 @@ target_sources(flightSim_playground PRIVATE ${flightSim_SOURCES})
 # flightSim include dirs
 target_include_directories(flightSim_playground PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    "C:/MSFS2024SDK/SimConnectSDK/include"
 )
 
-target_link_libraries(flightSim_playground PRIVATE 
-    cpr::cpr
+target_link_libraries(flightSim_playground PRIVATE cpr::cpr
+    "C:/MSFS2024SDK/SimConnectSDK/lib/SimConnect.lib"
+    shlwapi.lib
+    user32.lib
+    Ws2_32.lib
 )
+
+add_custom_command(TARGET flightSim_playground POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "C:/MSFS2024SDK/SimConnectSDK/lib/SimConnect.dll"
+        "${CMAKE_CURRENT_SOURCE_DIR}/build/Release"
+)
+
+target_compile_definitions(flightSim_playground PRIVATE SIMCONNECT_DEBUG)
 
 # Set configuration properties for flightSim
 if(MSVC)
